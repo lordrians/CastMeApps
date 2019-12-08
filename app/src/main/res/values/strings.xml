@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">CastMe!</string>
+    <string name="hint_email">Email ...</string>
+    <string name="hint_pass">Password ...</string>
+    <string name="register_now">Register Now</string>
+    <string name="dont_have_account">Don\'t Have an Accoun?</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_register">REGISTER</string>
+    <string name="email">Email</string>
+    <string name="action_search_text">Search</string>
+    <string name="account_setting_text">Accountt Setting</string>
+    <string name="action_logout_text">Logout</string>
+    <string name="hint_conf_pass">Confirm Password...</string>
+    <string name="btn_register_now">REGISTER NOW</string>
+</resources>
