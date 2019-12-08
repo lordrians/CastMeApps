@@ -31,6 +31,9 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetupActivity extends AppCompatActivity implements View.OnClickListener {
@@ -86,10 +89,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.btnSaveSetting:
-                String UserName = etSetupName.getText().toString();
+                final String UserName = etSetupName.getText().toString();
 
                 if (!TextUtils.isEmpty(UserName) && mainImageURI != null){
-                    String userId = FirebaseAuth.getInstance().getUid();
+                    final String userId = FirebaseAuth.getInstance().getUid();
                     pbSetup.setVisibility(View.VISIBLE);
 
                     final StorageReference imgPath = storageReference.child("profile_images").child(userId + ".jpg");
@@ -102,7 +105,27 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     if (task.isSuccessful()){
                                         Uri DownloadURI = task.getResult();
-                                        Toast.makeText(SetupActivity.this, "The Images has been Uploaded", Toast.LENGTH_LONG).show();
+
+                                        Map<String, String> userMap = new HashMap<>();
+                                        userMap.put("name", UserName);
+                                        userMap.put("image", DownloadURI.toString());
+
+                                        firestore.collection("Users").document(userId).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    Toast.makeText(SetupActivity.this, "User information has been Updated", Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(SetupActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                                else {
+                                                    String errorMsg = task.getException().getMessage();
+                                                    Toast.makeText(SetupActivity.this, "Error = " + errorMsg, Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+
                                     }
                                     else {
                                         String errorMsg = task.getException().getMessage();
