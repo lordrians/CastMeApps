@@ -8,8 +8,10 @@
     <string name="btn_register">REGISTER</string>
     <string name="email">Email</string>
     <string name="action_search_text">Search</string>
-    <string name="account_setting_text">Accountt Setting</string>
+    <string name="account_setting_text">Account Setting</string>
     <string name="action_logout_text">Logout</string>
     <string name="hint_conf_pass">Confirm Password...</string>
     <string name="btn_register_now">REGISTER NOW</string>
+    <string name="setup_name_hint">Your Name ...</string>
+    <string name="setup_name_btn">SAVE ACCOUNT SETTINGS</string>
 </resources>

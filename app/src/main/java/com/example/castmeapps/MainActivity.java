@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_account_setting_btn:
                 Intent intent = new Intent(this, SetupActivity.class);
                 startActivity(intent);
+                return true;
 
             default:
                 return false;
