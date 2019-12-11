@@ -169,7 +169,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                     else {
                         storeFirestore(null, UserName);
                     }
-
+//
                 break;
 
 
