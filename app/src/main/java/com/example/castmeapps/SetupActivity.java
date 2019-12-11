@@ -132,11 +132,9 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnSaveSetting:
                 final String UserName = etSetupName.getText().toString();
 
-
-                    if (!TextUtils.isEmpty(UserName) && mainImageURI != null){
-                        pbSetup.setVisibility(View.VISIBLE);
-                        if (isChanged){
-
+                    if (isChanged){
+                        if (!TextUtils.isEmpty(UserName) && mainImageURI != null){
+                            pbSetup.setVisibility(View.VISIBLE);
                             userId = FirebaseAuth.getInstance().getUid();
                             final StorageReference imgPath = storageReference.child("profile_images").child(userId + ".jpg");
 
@@ -161,15 +159,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                             });
 
                         }
-
-
-
-
+                        else {
+                            storeFirestore(null, UserName);
+                        }
                     }
-                    else {
-                        storeFirestore(null, UserName);
-                    }
-//
+
+
                 break;
 
 
