@@ -36,7 +36,8 @@
         android:src="@drawable/account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setup_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/setup_toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <EditText
         android:id="@+id/etNameSetup"

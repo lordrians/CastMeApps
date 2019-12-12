@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,8 +18,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar mainToolbar;
+    private FloatingActionButton fbAddMain;
+
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private String userId;
@@ -26,16 +30,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        firestore = FirebaseFirestore.getInstance();
 
+        fbAddMain = findViewById(R.id.fbAddMain);
+
+        firestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        userId = mAuth.getCurrentUser().getUid();
 
         mainToolbar = findViewById(R.id.main_Toolbar);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
 
-
+        fbAddMain.setOnClickListener(this);
 
     }
 
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             // User is signed in
+            userId = mAuth.getCurrentUser().getUid();
             firestore.collection("Users")
                     .document(userId).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -114,5 +120,26 @@ public class MainActivity extends AppCompatActivity {
     private void sendToSetup() {
         Intent intent = new Intent(this, SetupActivity.class);
         startActivity(intent);
+    }
+
+
+    private void sendToNewPost() {
+        Intent intent = new Intent(this, NewPostActivity.class);
+        startActivity(intent);
+
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.fbAddMain:
+                sendToNewPost();
+
+                break;
+
+        }
+
     }
 }
