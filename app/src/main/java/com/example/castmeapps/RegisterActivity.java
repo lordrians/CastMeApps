@@ -63,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
                                 Toast.makeText(RegisterActivity.this,"Create Account Success", Toast.LENGTH_LONG ).show();
-                                sendToSetup();
+                                sendToMain();
                             }
                             else {
                                 String errorMsg = task.getException().getMessage();
@@ -73,12 +73,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         }
                     });
                 }
+                else {
+                    Toast.makeText(RegisterActivity.this,"Please input all content", Toast.LENGTH_LONG ).show();
+                }
                 break;
         }
     }
 
-    private void sendToSetup() {
-        Intent intent = new Intent(this, SetupActivity.class);
+    private void sendToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

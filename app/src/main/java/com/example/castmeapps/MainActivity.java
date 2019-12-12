@@ -9,23 +9,32 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar mainToolbar;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        firestore = FirebaseFirestore.getInstance();
 
         mAuth = FirebaseAuth.getInstance();
+        userId = mAuth.getCurrentUser().getUid();
 
         mainToolbar = findViewById(R.id.main_Toolbar);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+
 
 
     }
@@ -34,12 +43,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null){
-            sendToLogin();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            firestore.collection("Users")
+                    .document(userId).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                            if (task.isSuccessful()){
+                                DocumentSnapshot documentSnapshot = task.getResult();
+
+                                if (documentSnapshot.exists()){
+
+                                }
+                                else {
+                                    sendToSetup();
+                                }
+
+                            }
+
+                        }
+
+                    });
+
         }
         else {
-
+            // No user is signed in
+            sendToLogin();
         }
     }
 
@@ -59,8 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_account_setting_btn:
-                Intent intent = new Intent(this, SetupActivity.class);
-                startActivity(intent);
+                sendToSetup();
                 return true;
 
             default:
@@ -78,5 +109,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void sendToSetup() {
+        Intent intent = new Intent(this, SetupActivity.class);
+        startActivity(intent);
     }
 }
