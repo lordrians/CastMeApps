@@ -118,7 +118,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                                         postMap.put("image_url", DownloadImgURI);
                                         postMap.put("caption", caption);
                                         postMap.put("user_id", UserId);
-                                        postMap.put("timestamp", FieldValue.serverTimestamp().toString());
+                                        postMap.put("timestamp", FieldValue.serverTimestamp());
 
                                         firestore.collection("Post").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                             @Override
