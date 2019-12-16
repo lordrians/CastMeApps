@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".NewPostActivity">
 
+    <ProgressBar
+        android:id="@+id/pbNewPost"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_Toolbar" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/post_Toolbar"
         android:layout_width="match_parent"
@@ -20,27 +32,28 @@
         android:id="@+id/ivNewPost"
         android:layout_width="0dp"
         android:layout_height="300dp"
+        android:background="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_Toolbar"
-        android:background="@color/gray"/>
+        app:layout_constraintTop_toBottomOf="@+id/pbNewPost" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etCaptionPost"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:textSize="18sp"
-        android:padding="16dp"
         android:gravity="start|top"
         android:hint="@string/add_caption"
         android:inputType="textMultiLine"
+        android:maxLength="160"
+        android:padding="16dp"
         android:textColor="@color/black"
         android:textColorHint="@color/colorPrimary"
         android:textColorLink="@color/colorAccent"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivNewPost" />
@@ -59,7 +72,7 @@
         android:text="@string/post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/etCaptionPost" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
