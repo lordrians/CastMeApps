@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,11 +32,17 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+
+import id.zelory.compressor.Compressor;
 
 import static io.opencensus.tags.TagValue.MAX_LENGTH;
 
@@ -52,6 +60,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
     private FirebaseFirestore firestore;
+
+    private Bitmap compressedImageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +110,9 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (!TextUtils.isEmpty(caption) && ImageNewPostURI != null){
 
+                    btnNewPost.setEnabled(false);
                     pbNewPost.setVisibility(View.VISIBLE);
-                    String randomImgId = random();
+                    final String randomImgId = UUID.randomUUID().toString();
 
                     final StorageReference imgPath = mStorageRef.child("post_images").child(randomImgId + ".jpg");
 
@@ -110,33 +121,74 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             imgPath.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Uri> task) {
+                                public void onComplete(@NonNull final Task<Uri> task) {
+                                    final String DownloadImgURI = task.getResult().toString();
+
                                     if (task.isSuccessful()){
 
-                                        String DownloadImgURI = task.getResult().toString();
-                                        Map<String, Object> postMap = new HashMap<>();
-                                        postMap.put("image_url", DownloadImgURI);
-                                        postMap.put("caption", caption);
-                                        postMap.put("user_id", UserId);
-                                        postMap.put("timestamp", FieldValue.serverTimestamp());
+                                        File newImagesFile = new File(ImageNewPostURI.getPath());
+                                        try {
 
-                                        firestore.collection("Post").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            compressedImageFile = new Compressor(NewPostActivity.this)
+                                                    .compressToBitmap(newImagesFile);
+
+                                        } catch (IOException e) {
+
+                                            e.printStackTrace();
+
+                                        }
+
+                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                        compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                                        byte[] imagesByte = baos.toByteArray();
+
+                                        final UploadTask thumbImages = mStorageRef.child("post_images/thumbs")
+                                                .child(randomImgId + ".jpg")
+                                                .putBytes(imagesByte);
+
+                                        thumbImages.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                                if (task.isSuccessful()){
+                                                Task<Uri> ThumbImgUri = taskSnapshot.getStorage().getDownloadUrl();
+                                                String DownloadThumbImgURI = thumbImages.toString();
 
-                                                    Toast.makeText(NewPostActivity.this, "Post was Added", Toast.LENGTH_LONG);
-                                                    finish();
+                                                Map<String, Object> postMap = new HashMap<>();
+                                                postMap.put("image_url", DownloadImgURI);
+                                                postMap.put("thumb_uri", DownloadThumbImgURI);
+                                                postMap.put("caption", caption);
+                                                postMap.put("user_id", UserId);
+                                                postMap.put("timestamp", FieldValue.serverTimestamp());
 
-                                                }
-                                                else {
-                                                    String errorMsg = task.getException().getMessage();
-                                                    Toast.makeText(NewPostActivity.this, errorMsg, Toast.LENGTH_LONG);
+                                                firestore.collection("Post").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
 
-                                                }
+                                                        if (task.isSuccessful()){
 
-                                                pbNewPost.setVisibility(View.INVISIBLE);
+                                                            Toast.makeText(NewPostActivity.this, "Post was Added", Toast.LENGTH_LONG).show();
+                                                            finish();
+
+                                                        }
+                                                        else {
+                                                            String errorMsg = task.getException().getMessage();
+                                                            Toast.makeText(NewPostActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+
+                                                        }
+
+                                                        btnNewPost.setEnabled(true);
+                                                        pbNewPost.setVisibility(View.INVISIBLE);
+
+                                                    }
+                                                });
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                                String errorMsg = e.getMessage().toString();
+                                                Toast.makeText(NewPostActivity.this, errorMsg, Toast.LENGTH_LONG ).show();
 
                                             }
                                         });
@@ -146,10 +198,11 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                                     else {
 
                                         String errorMsg = task.getException().getMessage();
-                                        Toast.makeText(NewPostActivity.this, errorMsg, Toast.LENGTH_LONG);
+                                        Toast.makeText(NewPostActivity.this, errorMsg, Toast.LENGTH_LONG).show();
 
                                     }
 
+                                    btnNewPost.setEnabled(true);
                                     pbNewPost.setVisibility(View.INVISIBLE);
 
                                 }
@@ -158,6 +211,12 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                     });
 
                 }
+                else {
+
+                    Toast.makeText(NewPostActivity.this, "Please fill empty column", Toast.LENGTH_LONG).show();
+
+                }
+
 
 
 
@@ -182,17 +241,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 Exception error = result.getError();
             }
         }
-    }
-
-    //For random string
-    public String random() {
-        String uuid = UUID.randomUUID().toString();
-        System.out.println(uuid + " of length " + uuid.length());
-
-        // Remove dashes
-        String uuid2 = uuid.replaceAll("-", "");
-        return uuid2;
-
     }
 
     private void PickImages() {

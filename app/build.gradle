@@ -37,4 +37,5 @@ dependencies {
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.github.clans:fab:1.6.4'
+    implementation 'id.zelory:compressor:2.1.0'
 }
