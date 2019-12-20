@@ -17,4 +17,10 @@
     <string name="setup_name_btn">SAVE ACCOUNT SETTINGS</string>
     <string name="add_caption">Add Caption...</string>
     <string name="post">POSTING</string>
+    <string name="botnav_home_text">Home</string>
+    <string name="botnav_notif_text">Notification</string>
+    <string name="botnav_account_text">Account</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

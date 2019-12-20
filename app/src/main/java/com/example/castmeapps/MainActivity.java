@@ -13,6 +13,7 @@ import android.view.View;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar mainToolbar;
     private FloatingActionButton fbAddMain;
+    private BottomNavigationView mainBotNav;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         fbAddMain = findViewById(R.id.fbAddMain);
+        mainBotNav = findViewById(R.id.mainBotNav);
 
         firestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
