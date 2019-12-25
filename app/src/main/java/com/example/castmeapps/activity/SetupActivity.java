@@ -1,4 +1,4 @@
-package com.example.castmeapps;
+package com.example.castmeapps.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,12 +22,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.castmeapps.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -205,6 +205,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private void storeFullDtFirestore(@NonNull final Task<Uri> task, String UserName) {
         Uri DownloadURI;
+        String dumpImg = "";
         Map<String, Object> userMap = new HashMap<>();
 
         if (task != null){
@@ -214,6 +215,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         }
         else {
             userMap.put("name", UserName);
+            userMap.put("image", dumpImg);
         }
 
         firestore.collection("Users").document(userId)

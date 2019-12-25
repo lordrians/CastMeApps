@@ -1,4 +1,4 @@
-package com.example.castmeapps;
+package com.example.castmeapps.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.castmeapps.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,16 +36,11 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import id.zelory.compressor.Compressor;
-
-import static io.opencensus.tags.TagValue.MAX_LENGTH;
 
 public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar  postToolbar;
@@ -151,7 +147,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                                                 Task<Uri> ThumbImgUri = taskSnapshot.getStorage().getDownloadUrl();
-                                                String DownloadThumbImgURI = thumbImages.toString();
+                                                String DownloadThumbImgURI = ThumbImgUri.toString();
 
                                                 Map<String, Object> postMap = new HashMap<>();
                                                 postMap.put("image_url", DownloadImgURI);
@@ -175,9 +171,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                                                             Toast.makeText(NewPostActivity.this, errorMsg, Toast.LENGTH_LONG).show();
 
                                                         }
-
-                                                        btnNewPost.setEnabled(true);
-                                                        pbNewPost.setVisibility(View.INVISIBLE);
 
                                                     }
                                                 });
