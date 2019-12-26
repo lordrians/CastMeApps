@@ -1,17 +1,18 @@
 package com.example.castmeapps.object;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Posting {
 
     private String user_id, caption, image_url, thumb_uri;
-    private Timestamp timestamp;
+    private Date timestamp;
+
 
     public Posting(){
         //must empty
     }
 
-    public Posting(String user_id, String caption, String image_url, String thumb_uri, Timestamp timestamp) {
+    public Posting(String user_id, String caption, String image_url, String thumb_uri, Date timestamp) {
         this.user_id = user_id;
         this.caption = caption;
         this.image_url = image_url;
@@ -51,11 +52,11 @@ public class Posting {
         this.thumb_uri = thumb_uri;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 }

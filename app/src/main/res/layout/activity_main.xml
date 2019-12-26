@@ -24,7 +24,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:focusable="auto"
+        android:elevation="0dp"
         android:src="@drawable/fab_add"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/mainBotNav"
         app:layout_constraintEnd_toEndOf="parent" />
 

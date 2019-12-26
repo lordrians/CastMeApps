@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainBotNav.setOnNavigationItemSelectedListener(this);
         fbAddMain.setOnClickListener(this);
 
+        replaceFragment(homeFragment);
     }
 
     @Override
