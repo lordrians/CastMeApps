@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()){
             case R.id.action_logout_btn:
                 Logout();
+                sendToLogin();
                 return true;
 
             case R.id.action_account_setting_btn:
@@ -150,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void Logout() {
         mAuth.signOut();
-        sendToLogin();
     }
     //Move Activity
 

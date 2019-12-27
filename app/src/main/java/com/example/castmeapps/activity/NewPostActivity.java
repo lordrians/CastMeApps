@@ -163,7 +163,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                                                         if (task.isSuccessful()){
 
                                                             Toast.makeText(NewPostActivity.this, "Post was Added", Toast.LENGTH_LONG).show();
-                                                            finish();
+                                                            sendToMain();
 
                                                         }
                                                         else {
@@ -243,4 +243,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 .start(NewPostActivity.this);
     }
 
+    private void sendToMain(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
 }

@@ -3,6 +3,7 @@ package com.example.castmeapps.adapter;
 import android.content.Context;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +62,6 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
                 .apply(new RequestOptions().centerCrop())
                 .into(holder.ivPostImg);
 
-        long milisecond = listPosting.get(position).getTimestamp().getTime();
-        holder.tvDate.setText(convertTime(milisecond));
 
 
         String userId = posting.getUser_id();
@@ -89,6 +88,9 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
 
             }
         });
+
+        long milisecond = listPosting.get(position).getTimestamp().getTime();
+        holder.tvDate.setText(convertTime(milisecond));
     }
 
     @Override
@@ -121,11 +123,13 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
 
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Long now = System.currentTimeMillis();
 
         String date = formatter.format(new Date(milisecond));
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milisecond);
-        return formatter.format(calendar.getTime());
-
+        String ago = DateUtils.getRelativeTimeSpanString(milisecond, now, DateUtils.MINUTE_IN_MILLIS).toString();
+//        return formatter.format(calendar.getTime());
+        return ago;
     }
 }
