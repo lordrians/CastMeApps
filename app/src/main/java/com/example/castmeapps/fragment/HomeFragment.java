@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView rvHomePost;
     private ArrayList<Posting> listPosting;
+    private boolean isFirstPageLoad = true;
 
     private FirebaseFirestore firestore;
     private FirebaseAuth firebaseAuth;
@@ -62,12 +63,13 @@ public class HomeFragment extends Fragment {
 
         postingAdapter = new PostingAdapter(listPosting);
         firebaseAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
 
         rvHomePost.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvHomePost.setAdapter(postingAdapter);
 
         if (firebaseAuth.getCurrentUser() != null) {
+
+            firestore = FirebaseFirestore.getInstance();
 
             rvHomePost.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -77,7 +79,6 @@ public class HomeFragment extends Fragment {
                     Boolean reachedBottom = !recyclerView.canScrollVertically(1);
 
                     if (reachedBottom){
-                        Toast.makeText(container.getContext(), "Post Loaded", Toast.LENGTH_LONG).show();
                         loadMorePost();
                     }
                     else {
@@ -88,17 +89,27 @@ public class HomeFragment extends Fragment {
             });
 
             Query queryFirstLoad = firestore.collection("Post").orderBy("timestamp", Query.Direction.DESCENDING).limit(5);
-            queryFirstLoad.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            queryFirstLoad.addSnapshotListener(getActivity(),new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                    lastPost = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() -1);
+                    if (isFirstPageLoad){
+                        lastPost = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() -1);
+                    }
 
                     for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
                         if (doc.getType() == DocumentChange.Type.ADDED) {
 
-                            Posting posting = doc.getDocument().toObject(Posting.class);
-                            listPosting.add(posting);
+                            String postId = doc.getDocument().getId();
+
+                            Posting posting = doc.getDocument().toObject(Posting.class).withId(postId);
+
+                            if (isFirstPageLoad) {
+                                listPosting.add(posting);
+                            }
+                            else {
+                                listPosting.add(0, posting);
+                            }
 
                             postingAdapter.notifyDataSetChanged();
 
@@ -106,8 +117,12 @@ public class HomeFragment extends Fragment {
 
                     }
 
+                    isFirstPageLoad = false;
+
                 }
             });
+
+
         }
         // Inflate the layout for this fragment
         return view;
@@ -121,7 +136,7 @@ public class HomeFragment extends Fragment {
                 .limit(5);
 
 
-        queryMorePost.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        queryMorePost.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
@@ -132,9 +147,10 @@ public class HomeFragment extends Fragment {
 
                         if (doc.getType() == DocumentChange.Type.ADDED) {
 
-                            Posting posting = doc.getDocument().toObject(Posting.class);
-                            listPosting.add(posting);
+                            String postId = doc.getDocument().getId();
 
+                            Posting posting = doc.getDocument().toObject(Posting.class).withId(postId);
+                            listPosting.add(posting);
                             postingAdapter.notifyDataSetChanged();
 
                         }

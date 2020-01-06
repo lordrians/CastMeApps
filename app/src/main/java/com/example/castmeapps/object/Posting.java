@@ -2,11 +2,15 @@ package com.example.castmeapps.object;
 
 import java.util.Date;
 
-public class Posting {
+public class Posting extends PostId {
 
-    private String user_id, caption, image_url, thumb_uri;
+    private String user_id;
+    private String caption;
+    private String image_url;
+    private String thumb_uri;
+    private String likescount;
+
     private Date timestamp;
-
 
     public Posting(){
         //must empty
@@ -58,5 +62,13 @@ public class Posting {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getLikescount() {
+        return likescount;
+    }
+
+    public void setLikescount(String likescount) {
+        this.likescount = likescount;
     }
 }

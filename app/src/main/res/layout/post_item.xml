@@ -20,6 +20,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/iv_item_komen"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_item_likecount"
+                app:layout_constraintTop_toBottomOf="@+id/iv_item_post"
+                app:srcCompat="@mipmap/action_comment" />
+
+            <TextView
+                android:id="@+id/tv_item_likecount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:text="0 Likes"
+                app:layout_constraintStart_toEndOf="@+id/btn_item_like"
+                app:layout_constraintTop_toBottomOf="@+id/iv_item_post" />
+
+            <TextView
+                android:id="@+id/tv_item_komencount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:text="0 Comments"
+                app:layout_constraintStart_toEndOf="@+id/iv_item_komen"
+                app:layout_constraintTop_toBottomOf="@+id/iv_item_post" />
+
+            <ImageView
+                android:id="@+id/btn_item_like"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_item_post"
+                app:srcCompat="@mipmap/action_like_gray" />
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_item_user"
                 android:layout_width="35dp"
@@ -41,18 +81,6 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/iv_item_user"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_item_username2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Ferrian Redhia Pratama"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_item_post" />
 
             <TextView
                 android:id="@+id/tv_item_date"
@@ -86,7 +114,7 @@
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_item_username2" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_item_like" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
