@@ -1,6 +1,7 @@
 package com.example.castmeapps.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.castmeapps.R;
-import com.example.castmeapps.object.PostId;
+import com.example.castmeapps.activity.CommentActivity;
+import com.example.castmeapps.activity.MainActivity;
 import com.example.castmeapps.object.Posting;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -164,6 +165,15 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
 
             }
         });
+
+        holder.btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("postId",postId);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -181,7 +191,7 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
 
         private TextView tvCaption, tvUserid, tvDate, tvLikeCount;
         private View mView;
-        private ImageView ivPostImg, btnLike;
+        private ImageView ivPostImg, btnLike, btnComment;
         private CircleImageView userimage;
 
 
@@ -192,9 +202,10 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
             tvUserid = itemView.findViewById(R.id.tv_item_username);
             ivPostImg = itemView.findViewById(R.id.iv_item_post);
             tvDate = itemView.findViewById(R.id.tv_item_date);
-            userimage = itemView.findViewById(R.id.iv_item_user);
+            userimage = itemView.findViewById(R.id.iv_addcomment_user);
             btnLike = itemView.findViewById(R.id.btn_item_like);
             tvLikeCount = itemView.findViewById(R.id.tv_item_likecount);
+            btnComment = itemView.findViewById(R.id.iv_item_comment);
 
 
         }

@@ -1,6 +1,8 @@
 package com.example.castmeapps.fragment;
 
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,9 +14,11 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.castmeapps.R;
+import com.example.castmeapps.activity.MainActivity;
 import com.example.castmeapps.adapter.PostingAdapter;
 import com.example.castmeapps.object.Posting;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +48,8 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private DocumentSnapshot lastPost;
 
+    private ImageView btnComment;
+
     private PostingAdapter postingAdapter;
 
     public HomeFragment() {
@@ -60,8 +66,11 @@ public class HomeFragment extends Fragment {
         listPosting = new ArrayList<>();
 
         rvHomePost = view.findViewById(R.id.rv_home_post);
+        btnComment = view.findViewById(R.id.iv_item_comment);
+
 
         postingAdapter = new PostingAdapter(listPosting);
+
         firebaseAuth = FirebaseAuth.getInstance();
 
         rvHomePost.setLayoutManager(new LinearLayoutManager(getActivity()));

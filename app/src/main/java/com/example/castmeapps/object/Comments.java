@@ -2,23 +2,27 @@ package com.example.castmeapps.object;
 
 import java.util.Date;
 
-public class Comment {
-    private String username;
+public class Comments extends PostId {
+    private String userId;
     private String caption;
     private Date timestamp;
 
-    public Comment(String username, String caption, Date timestamp) {
-        this.username = username;
+    public Comments(){
+        //must empty
+    }
+
+    public Comments(String userId, String caption, Date timestamp) {
+        this.userId = userId;
         this.caption = caption;
         this.timestamp = timestamp;
     }
 
-    public String getUsername() {
-        return username;
+    public String getuserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setuserId(String userId) {
+        this.userId = userId;
     }
 
     public String getCaption() {

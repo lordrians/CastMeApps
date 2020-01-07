@@ -6,9 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".activity.CommentActivity">
 
+    <ImageView
+        android:id="@+id/btn_comment_send"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_comment"
+        app:srcCompat="@mipmap/action_send" />
+
+    <EditText
+        android:id="@+id/et_addcomment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="16sp"
+        android:hint="@string/comment_here"
+        app:layout_constraintEnd_toStartOf="@+id/btn_comment_send"
+        app:layout_constraintStart_toEndOf="@+id/iv_addcomment_user"
+        app:layout_constraintTop_toBottomOf="@+id/rv_comment" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_addcomment_user"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_comment"
+        tools:src="@mipmap/action_account" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

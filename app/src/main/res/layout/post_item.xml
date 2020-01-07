@@ -21,7 +21,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/iv_item_komen"
+                android:id="@+id/iv_item_comment"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="8dp"
@@ -47,7 +47,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:text="0 Comments"
-                app:layout_constraintStart_toEndOf="@+id/iv_item_komen"
+                app:layout_constraintStart_toEndOf="@+id/iv_item_comment"
                 app:layout_constraintTop_toBottomOf="@+id/iv_item_post" />
 
             <ImageView
@@ -61,7 +61,7 @@
                 app:srcCompat="@mipmap/action_like_gray" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_item_user"
+                android:id="@+id/iv_addcomment_user"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
@@ -79,7 +79,7 @@
                 android:text="Ferrian Redhia Pratama"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/iv_item_user"
+                app:layout_constraintStart_toEndOf="@+id/iv_addcomment_user"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -101,7 +101,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_item_user"
+                app:layout_constraintTop_toBottomOf="@+id/iv_addcomment_user"
                 app:srcCompat="@color/gray" />
 
             <TextView
