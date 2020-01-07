@@ -65,23 +65,24 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final CommentAdapter.ViewHolder holder, int position) {
 
+
         final Comments comment = listComment.get(position);
         final String postId = listComment.get(position).PostId;
         final String currentUserId = firebaseAuth.getCurrentUser().getUid();
-
-        holder.tvCaption.setText(comment.getCaption());
-
         long milisecond = listComment.get(position).getTimestamp().getTime();
+
+
+        holder.tvCaptions.setText(comment.getComment_text());
         holder.tvDate.setText(convertTime(milisecond));
 
-        String userId = comment.getuserId();
+        String userId = comment.getUser_id();
         firestore.collection("Users").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
 
                     String name = task.getResult().getString("name");
-                    String userImage = task.getResult().getString("iamge");
+                    String userImage = task.getResult().getString("image");
                     holder.tvUsername.setText(name);
                     Glide.with(context)
                             .load(userImage)
@@ -91,67 +92,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             }
         });
 
-        firestore.collection("Users").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-
-                    String userImage = task.getResult().getString("image");
-                    Glide.with(context)
-                            .load(userImage)
-                            .apply(new RequestOptions().centerCrop())
-                            .into(holder.userImageAddComment);
-
-                }
-            }
-        });
-
-        holder.btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final String caption = holder.etComment.getText().toString();
-
-                if (!TextUtils.isEmpty(caption)){
-
-                    holder.btnSend.setEnabled(false);
-
-                    Map<String, Object> commentMap = new HashMap<>();
-                    commentMap.put("comment_text", caption);
-                    commentMap.put("timestamp", FieldValue.serverTimestamp());
-
-                    firestore.collection("Post/" + postId + "/Comments").document(currentUserId).set(commentMap);
-
-                }
-                else {
-                    Toast.makeText(context, "Komentar tidak boleh kosong", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listComment.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvUsername, tvCaption, tvDate;
-        private CircleImageView userImage, userImageAddComment;
-        private ImageView btnSend;
-        private EditText etComment;
+        private TextView tvUsername, tvCaptions, tvDate;
+        private CircleImageView userImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tv_item_comment_usermame);
-            tvCaption = itemView.findViewById(R.id.tv_item_comment_caption);
+            tvCaptions = itemView.findViewById(R.id.tv_item_comment_captions);
             tvDate = itemView.findViewById(R.id.tv_item_comment_date);
             userImage = itemView.findViewById(R.id.iv_item_comment_user);
-            userImageAddComment = itemView.findViewById(R.id.iv_item_comment_user);
-            btnSend = itemView.findViewById(R.id.btn_comment_send);
-            etComment = itemView.findViewById(R.id.et_addcomment);
 
         }
     }

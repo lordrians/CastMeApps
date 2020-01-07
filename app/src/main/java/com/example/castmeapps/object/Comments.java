@@ -1,36 +1,30 @@
 package com.example.castmeapps.object;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Comments extends PostId {
-    private String userId;
-    private String caption;
+    private String comment_text;
     private Date timestamp;
+    private String user_id;
 
     public Comments(){
         //must empty
     }
 
-    public Comments(String userId, String caption, Date timestamp) {
-        this.userId = userId;
-        this.caption = caption;
+    public Comments(String comment_text, Date timestamp, String user_id) {
+        this.comment_text = comment_text;
         this.timestamp = timestamp;
+        this.user_id = user_id;
     }
 
-    public String getuserId() {
-        return userId;
+    public String getComment_text() {
+        return comment_text;
     }
 
-    public void setuserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
+    public void setComment_text(String comment_text) {
+        this.comment_text = comment_text;
     }
 
     public Date getTimestamp() {
@@ -41,4 +35,11 @@ public class Comments extends PostId {
         this.timestamp = timestamp;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 }

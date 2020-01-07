@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
 
         listPosting = new ArrayList<>();
 
-        rvHomePost = view.findViewById(R.id.rv_home_post);
+        rvHomePost = view.findViewById(R.id.rv_homepost);
         btnComment = view.findViewById(R.id.iv_item_comment);
 
 

@@ -56,6 +56,7 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         context = parent.getContext();
         firestore = FirebaseFirestore.getInstance();
@@ -125,6 +126,24 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
             }
         });
 
+        firestore.collection("Post/" + postId + "/Comments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                if (!queryDocumentSnapshots.isEmpty()){
+
+                    int count = queryDocumentSnapshots.size();
+                    holder.tvCommentCount.setText(count + " Comments");
+
+                }else {
+
+                    holder.tvCommentCount.setText("0 Comments");
+
+                }
+
+            }
+        });
+
 
         firestore.collection("Post/" + postId + "/Likes").document(currentUserId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -140,6 +159,8 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
                 }
             }
         });
+
+
 
         holder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +210,7 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvCaption, tvUserid, tvDate, tvLikeCount;
+        private TextView tvCaption, tvUserid, tvDate, tvLikeCount, tvCommentCount;
         private View mView;
         private ImageView ivPostImg, btnLike, btnComment;
         private CircleImageView userimage;
@@ -197,7 +218,6 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mView = itemView;
             tvCaption = itemView.findViewById(R.id.tv_item_caption);
             tvUserid = itemView.findViewById(R.id.tv_item_username);
             ivPostImg = itemView.findViewById(R.id.iv_item_post);
@@ -206,6 +226,7 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
             btnLike = itemView.findViewById(R.id.btn_item_like);
             tvLikeCount = itemView.findViewById(R.id.tv_item_likecount);
             btnComment = itemView.findViewById(R.id.iv_item_comment);
+            tvCommentCount = itemView.findViewById(R.id.tv_item_komencount);
 
 
         }
