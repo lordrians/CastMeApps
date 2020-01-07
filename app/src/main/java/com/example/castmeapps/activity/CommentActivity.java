@@ -48,7 +48,7 @@ public class CommentActivity extends AppCompatActivity {
     private ArrayList<Comments> listComment;
     private CommentAdapter commentAdapter;
     private boolean isFirstPageLoad = true;
-    private boolean isNull = true;
+    private boolean isNull;
 //    private String postId;
 
     private CircleImageView userImageAddComment;
@@ -59,6 +59,8 @@ public class CommentActivity extends AppCompatActivity {
     private PostId postIdClass;
     private Context context;
 
+    private String postId;
+
     private FirebaseFirestore firestore;
     private DocumentSnapshot lastComments;
 
@@ -67,7 +69,7 @@ public class CommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         Bundle bundle = getIntent().getExtras();
-        final String postId = bundle.getString("postId");
+        postId = bundle.getString("postId");
 
         userImageAddComment = findViewById(R.id.iv_addcomment_user);
         btnSend = findViewById(R.id.btn_comment_send);
@@ -87,34 +89,6 @@ public class CommentActivity extends AppCompatActivity {
 
         String currentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        rvComment.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                Boolean reachedBottom = !recyclerView.canScrollVertically(1);
-
-                if (reachedBottom){
-                    loadMorePost();
-                }
-                else {
-
-                }
-
-            }
-        });
-
-
-
-        firestore.collection("Post").document(postId).collection("Comments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (!task.getResult().isEmpty()){
-                    isNull =false;
-                }
-            }
-        });
-
         firestore.collection("Users").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -133,15 +107,12 @@ public class CommentActivity extends AppCompatActivity {
         });
 
 
-        if (isNull){
+        if (!isNull){
             Toast.makeText(this, postId, Toast.LENGTH_LONG).show();
             Query queryFirstLoad = firestore.collection("Post").document(postId).collection("Comments").orderBy("timestamp", Query.Direction.ASCENDING);
             queryFirstLoad.addSnapshotListener(this,new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                    if (isFirstPageLoad){
-                        lastComments = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() -1);
-                    }
 
                     for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
@@ -149,7 +120,7 @@ public class CommentActivity extends AppCompatActivity {
 
                             String postId = doc.getDocument().getId();
 
-                            Comments comments = doc.getDocument().toObject(Comments.class).withId(postId);
+                            Comments comments = doc.getDocument().toObject(Comments.class);
 
                             if (isFirstPageLoad) {
                                 listComment.add(comments);
@@ -163,8 +134,6 @@ public class CommentActivity extends AppCompatActivity {
                         }
 
                     }
-
-                    isFirstPageLoad = false;
 
 
                 }
@@ -185,6 +154,7 @@ public class CommentActivity extends AppCompatActivity {
                 commentMap.put("timestamp", FieldValue.serverTimestamp());
 
                 firestore.collection("Post/" + postId + "/Comments").add(commentMap);
+                finish();
                 Toast.makeText(CommentActivity.this, "Komentar Terkirim", Toast.LENGTH_LONG).show();
 
 
@@ -195,49 +165,24 @@ public class CommentActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firestore.collection("Post/" + postId + "/Comments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
+                if (snapshots.isEmpty()){
+                    isNull = true;
+                    Toast.makeText(CommentActivity.this, "True", Toast.LENGTH_LONG).show();
+
+                }else {
+                    isNull = false;
+                    Toast.makeText(CommentActivity.this, "False", Toast.LENGTH_LONG).show();
 
 
-
-    private void loadMorePost(){
-
-
-//        Query queryMoreComments = firestore.collection("Post")
-//                .document(postId).collection("Comments")
-//                .orderBy("timestamp", Query.Direction.ASCENDING)
-//                .startAfter(lastComments)
-//                .limit(5);
-//
-//
-//        queryMoreComments.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//
-//                if (!queryDocumentSnapshots.isEmpty()) {
-//
-//                    lastComments = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() - 1);
-//                    for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
-//
-//                        if (doc.getType() == DocumentChange.Type.ADDED) {
-//
-//                            String postId = doc.getDocument().getId();
-//
-//                            Comments comments = doc.getDocument().toObject(Comments.class).withId(postId);
-//                            listComment.add(comments);
-//                            commentAdapter.notifyDataSetChanged();
-//
-//                        }
-//
-//                    }
-//
-//                }
-//                else {
-//
-//                    Toast.makeText(context, "No more post", Toast.LENGTH_LONG).show();
-//
-//                }
-//
-//
-//            }
-//        });
+                }
+            }
+        });
     }
+
 }

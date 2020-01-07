@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -69,10 +70,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         final Comments comment = listComment.get(position);
         final String postId = listComment.get(position).PostId;
         final String currentUserId = firebaseAuth.getCurrentUser().getUid();
-        long milisecond = listComment.get(position).getTimestamp().getTime();
 
 
         holder.tvCaptions.setText(comment.getComment_text());
+        long milisecond = listComment.get(position).getTimestamp().getTime();
         holder.tvDate.setText(convertTime(milisecond));
 
         String userId = comment.getUser_id();

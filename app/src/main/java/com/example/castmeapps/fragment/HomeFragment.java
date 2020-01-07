@@ -1,6 +1,7 @@
 package com.example.castmeapps.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.castmeapps.R;
+import com.example.castmeapps.activity.CommentActivity;
 import com.example.castmeapps.activity.MainActivity;
 import com.example.castmeapps.adapter.PostingAdapter;
 import com.example.castmeapps.object.Posting;
@@ -43,10 +45,12 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvHomePost;
     private ArrayList<Posting> listPosting;
     private boolean isFirstPageLoad = true;
-
+    private boolean isNull;
     private FirebaseFirestore firestore;
     private FirebaseAuth firebaseAuth;
     private DocumentSnapshot lastPost;
+    private Context context;
+
 
     private ImageView btnComment;
 
@@ -68,7 +72,7 @@ public class HomeFragment extends Fragment {
         rvHomePost = view.findViewById(R.id.rv_homepost);
         btnComment = view.findViewById(R.id.iv_item_comment);
 
-
+        context = getContext();
         postingAdapter = new PostingAdapter(listPosting);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -97,39 +101,58 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-            Query queryFirstLoad = firestore.collection("Post").orderBy("timestamp", Query.Direction.DESCENDING).limit(5);
-            queryFirstLoad.addSnapshotListener(getActivity(),new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                    if (isFirstPageLoad){
-                        lastPost = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() -1);
-                    }
+//            firestore.collection("Post").addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                @Override
+//                public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
+//                    if (snapshots.isEmpty()){
+//                        isNull = true;
+//                        Toast.makeText(context, "True", Toast.LENGTH_LONG).show();
+//
+//                    }else {
+//                        isNull = false;
+//                        Toast.makeText(context, "False", Toast.LENGTH_LONG).show();
+//
+//
+//                    }
+//                }
+//            });
 
-                    for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
-                        if (doc.getType() == DocumentChange.Type.ADDED) {
+                Query queryFirstLoad = firestore.collection("Post").orderBy("timestamp", Query.Direction.DESCENDING).limit(5);
+                queryFirstLoad.addSnapshotListener(getActivity(),new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (isFirstPageLoad){
+                            lastPost = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() -1);
+                        }
 
-                            String postId = doc.getDocument().getId();
+                        for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
-                            Posting posting = doc.getDocument().toObject(Posting.class).withId(postId);
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
 
-                            if (isFirstPageLoad) {
-                                listPosting.add(posting);
+                                String postId = doc.getDocument().getId();
+
+                                Posting posting = doc.getDocument().toObject(Posting.class).withId(postId);
+
+                                if (isFirstPageLoad) {
+                                    listPosting.add(posting);
+                                }
+                                else {
+                                    listPosting.add(0, posting);
+                                }
+
+                                postingAdapter.notifyDataSetChanged();
+
                             }
-                            else {
-                                listPosting.add(0, posting);
-                            }
-
-                            postingAdapter.notifyDataSetChanged();
 
                         }
 
+                        isFirstPageLoad = false;
+
                     }
+                });
 
-                    isFirstPageLoad = false;
 
-                }
-            });
 
 
         }
