@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fbAddMain.setOnClickListener(this);
 
         replaceFragment(homeFragment);
+
+
     }
 
     @Override
@@ -137,13 +139,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 replaceFragment(homeFragment);
                 return true;
 
-            case R.id.botnav_action_notif:
-                replaceFragment(notifFragment);
-                return true;
-
-            case R.id.botnav_action_account:
-                replaceFragment(accountFragment);
-                return true;
+//            case R.id.botnav_action_notif:
+//                replaceFragment(notifFragment);
+//                return true;
+//
+//            case R.id.botnav_action_account:
+//                replaceFragment(accountFragment);
+//                return true;
 
                 default:
                     return false;
