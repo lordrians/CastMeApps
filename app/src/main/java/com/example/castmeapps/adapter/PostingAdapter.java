@@ -112,16 +112,19 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
-                if (!queryDocumentSnapshots.isEmpty()){
+                if (e == null){
+                    if (!queryDocumentSnapshots.isEmpty()){
 
-                    int count = queryDocumentSnapshots.size();
-                    holder.tvLikeCount.setText(count + " Likes");
+                        int count = queryDocumentSnapshots.size();
+                        holder.tvLikeCount.setText(count + " Likes");
 
-                }else {
+                    }else {
 
-                    holder.tvLikeCount.setText("0 Likes");
+                        holder.tvLikeCount.setText("0 Likes");
 
+                    }
                 }
+
 
             }
         });
@@ -130,16 +133,19 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
-                if (!queryDocumentSnapshots.isEmpty()){
+                if (e == null){
+                    if (!queryDocumentSnapshots.isEmpty()){
 
-                    int count = queryDocumentSnapshots.size();
-                    holder.tvCommentCount.setText(count + " Comments");
+                        int count = queryDocumentSnapshots.size();
+                        holder.tvCommentCount.setText(count + " Comments");
 
-                }else {
+                    }else {
 
-                    holder.tvCommentCount.setText("0 Comments");
+                        holder.tvCommentCount.setText("0 Comments");
 
+                    }
                 }
+
 
             }
         });
@@ -148,15 +154,18 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
         firestore.collection("Post/" + postId + "/Likes").document(currentUserId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot.exists()){
+                if (e == null){
+                    if (documentSnapshot.exists()){
 
-                    holder.btnLike.setImageDrawable(context.getDrawable(R.mipmap.action_like_red));
+                        holder.btnLike.setImageDrawable(context.getDrawable(R.mipmap.action_like_red));
 
-                }else {
+                    }else {
 
-                    holder.btnLike.setImageDrawable(context.getDrawable(R.mipmap.action_like_gray));
+                        holder.btnLike.setImageDrawable(context.getDrawable(R.mipmap.action_like_gray));
 
+                    }
                 }
+
             }
         });
 

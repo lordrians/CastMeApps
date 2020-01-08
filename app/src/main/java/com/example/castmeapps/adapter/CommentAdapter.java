@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.castmeapps.R;
+import com.example.castmeapps.activity.CommentActivity;
 import com.example.castmeapps.object.Comments;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -65,16 +66,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final CommentAdapter.ViewHolder holder, int position) {
-
-
+        holder.setIsRecyclable(false);
         final Comments comment = listComment.get(position);
         final String postId = listComment.get(position).PostId;
         final String currentUserId = firebaseAuth.getCurrentUser().getUid();
-
+        long milisecond;
 
         holder.tvCaptions.setText(comment.getComment_text());
-        long milisecond = listComment.get(position).getTimestamp().getTime();
-        holder.tvDate.setText(convertTime(milisecond));
+//        long milisecond = listComment.get(position).getTimestamp().getTime();
+        if (listComment.get(position).getTimestamp() != null){
+            milisecond = listComment.get(position).getTimestamp().getTime();
+            holder.tvDate.setText(convertTime(milisecond));
+        }
+
 
         String userId = comment.getUser_id();
         firestore.collection("Users").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -85,7 +89,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     String name = task.getResult().getString("name");
                     String userImage = task.getResult().getString("image");
                     holder.tvUsername.setText(name);
-                    Glide.with(context)
+                    Glide.with(context.getApplicationContext())
                             .load(userImage)
                             .apply(new RequestOptions().centerCrop())
                             .into(holder.userImage);

@@ -171,16 +171,19 @@ public class CommentActivity extends AppCompatActivity {
         firestore.collection("Post/" + postId + "/Comments").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                if (snapshots.isEmpty()){
-                    isNull = true;
-                    Toast.makeText(CommentActivity.this, "True", Toast.LENGTH_LONG).show();
+                if (e == null){
+                    if (snapshots.isEmpty()){
+                        isNull = true;
+                        Toast.makeText(CommentActivity.this, "True", Toast.LENGTH_LONG).show();
 
-                }else {
-                    isNull = false;
-                    Toast.makeText(CommentActivity.this, "False", Toast.LENGTH_LONG).show();
+                    }else {
+                        isNull = false;
+                        Toast.makeText(CommentActivity.this, "False", Toast.LENGTH_LONG).show();
 
 
+                    }
                 }
+
             }
         });
     }

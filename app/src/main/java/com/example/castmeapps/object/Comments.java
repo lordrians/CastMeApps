@@ -1,13 +1,16 @@
 package com.example.castmeapps.object;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Comments extends PostId {
     private String comment_text;
-    private Date timestamp;
     private String user_id;
+    @ServerTimestamp
+    private Date timestamp;
 
     public Comments(){
         //must empty
