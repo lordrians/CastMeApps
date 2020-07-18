@@ -27,31 +27,31 @@ src : https://www.youtube.com/watch?v=ZqrT8ctJB4A&list=PLGCjwl1RrtcR4ptHvrc_PQIx
   
 #### [Screenshoot Login & Registration]
 
-![Sign In](/app/ss/ss_castme_login.png)  ![Register](/app/ss/ss_castme_register.png)
+<img src="/app/ss/ss_castme_login.png" width="250" height="400"> <img src="/app/ss/ss_castme_register.png" width="250" height="400"> 
 
 #### [Screenshoot Setting Account]
 
 This section automatically after user register new account
 
-![Account Setting](/app/ss/ss_castme_account_setting.png)
+<img src="/app/ss/ss_castme_account_setting.png" width="250" height="400"> 
 
 #### [Screenshoot Home]
 
 After user setting up their account (if new user), they will send to home.
 
-![Home](/app/ss/ss_castme_home.png)
+<img src="/app/ss/ss_castme_home.png" width="250" height="400"> 
 
 #### [Screenshoot Add new post and Home]
 
 We will try add new post with push add button in home activity, and user will send to add post activity.
 After user add new post, user will send to home
 
-![Add Post Activity](/app/ss/ss_castme_add_post.png) ![Home after posting](/app/ss/ss_castme_home_add.png)
+<img src="/app/ss/ss_castme_add_post.png" width="250" height="400"> <img src="/app/ss/ss_castme_home_add.png" width="250" height="400">
 
 #### [Screenshoot Add new comment and Home]
 
 We will to add comment in user post with push button comment in post item. And user will send to comment activity
 After that we push like button to giving like in this post
 
-![Add Comment Activity](/app/ss/ss_castme_comment.png)  ![Home add comment](/app/ss/ss_castme_home_commentlike.png)
+<img src="/app/ss/ss_castme_comment.png" width="250" height="400"> <img src="/app/ss/ss_castme_home_commentlike.png" width="250" height="400"> 
 
