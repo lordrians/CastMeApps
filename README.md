@@ -26,8 +26,9 @@ src : https://www.youtube.com/watch?v=ZqrT8ctJB4A&list=PLGCjwl1RrtcR4ptHvrc_PQIx
   
   
 #### [Screenshoot Login & Registration]
+<img src="https://github.com/lordrians/CastMeApps/tree/master/app/ss/ss_castme_login.png" width="200" height="400">
 
-![Sign In](/app/ss/ss_castme_login.png =240x240)  ![Register](/app/ss/ss_castme_register.png)
+![Sign In](/app/ss/ss_castme_login.png)  ![Register](/app/ss/ss_castme_register.png)
 
 #### [Screenshoot Setting Account]
 
