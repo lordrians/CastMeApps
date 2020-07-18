@@ -34,7 +34,6 @@ Technology i have used in this app :
 This section automatically after user register new account
 
 ![Account Setting](https://drive.google.com/uc?export=view&id=1bLQZs6uGt_MiEAP-x1r2g9Bs8VrC8DUx)
-1Mr_5q91z4asDRub3O-8QtdBgXCMBFYTe
 
 [Screenshoot Home]
 After user setting up their account (if new user), they will send to home.
