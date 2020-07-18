@@ -27,31 +27,31 @@ src : https://www.youtube.com/watch?v=ZqrT8ctJB4A&list=PLGCjwl1RrtcR4ptHvrc_PQIx
   
 #### [Screenshoot Login & Registration]
 
-![Sign In](/app/ss/ss_castme_login.png)  ![Register](https://drive.google.com/uc?export=view&id=1FWel9BW9AV6ILfW1vFLWn8uP_nuuQznd)
+![Sign In](/app/ss/ss_castme_login.png)  ![Register](/app/ss/ss_castme_register.png)
 
 #### [Screenshoot Setting Account]
 
 This section automatically after user register new account
 
-![Account Setting](https://drive.google.com/uc?export=view&id=1bLQZs6uGt_MiEAP-x1r2g9Bs8VrC8DUx)
+![Account Setting](/app/ss/ss_castme_account_setting.png)
 
 #### [Screenshoot Home]
 
 After user setting up their account (if new user), they will send to home.
 
-![Home](https://drive.google.com/uc?export=view&id=1We6bslPniMLLa5sFDCGXMHgknZonk101)
+![Home](/app/ss/ss_castme_home.png)
 
 #### [Screenshoot Add new post and Home]
 
 We will try add new post with push add button in home activity, and user will send to add post activity.
 After user add new post, user will send to home
 
-![Add Post Activity](https://drive.google.com/uc?export=view&id=1Mr_5q91z4asDRub3O-8QtdBgXCMBFYTe) ![Home after posting](https://drive.google.com/uc?export=view&id=1mBGfp1xWFX3MGiHB5cwFyrhzjLAKpCSW)
+![Add Post Activity](/app/ss/ss_castme_add_post.png) ![Home after posting](/app/ss/ss_castme_home_add.png)
 
 #### [Screenshoot Add new comment and Home]
 
 We will to add comment in user post with push button comment in post item. And user will send to comment activity
 After that we push like button to giving like in this post
 
-![Add Comment Activity](https://drive.google.com/uc?export=view&id=1ZOL_8n3Hz5j7FRm7568TDa5S61jKt_jX)  ![Home add comment](https://drive.google.com/uc?export=view&id=1Sa1CXwrXKUj4In5JiUI8BHKhflvt7Bvv)
+![Add Comment Activity](/app/ss/ss_castme_comment.png)  ![Home add comment](/app/ss/ss_castme_home_commentlike.png)
 
