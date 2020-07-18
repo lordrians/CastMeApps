@@ -27,7 +27,7 @@ src : https://www.youtube.com/watch?v=ZqrT8ctJB4A&list=PLGCjwl1RrtcR4ptHvrc_PQIx
   
 #### [Screenshoot Login & Registration]
 
-![Sign In](/app/ss/sss_castme_login.png)  ![Register](https://drive.google.com/uc?export=view&id=1FWel9BW9AV6ILfW1vFLWn8uP_nuuQznd)
+![Sign In](/app/ss/ss_castme_login.png)  ![Register](https://drive.google.com/uc?export=view&id=1FWel9BW9AV6ILfW1vFLWn8uP_nuuQznd)
 
 #### [Screenshoot Setting Account]
 
