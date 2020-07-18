@@ -50,5 +50,5 @@ After user add new post, user will send to home
 We will to add comment in user post with push button comment in post item. And user will send to comment activity
 After that we push like button to giving like in this post
 
-![Add Comment Activity](https://drive.google.com/uc?export=view&id=1ZOL_8n3Hz5j7FRm7568TDa5S61jKt_jX) ![Home add comment](https://drive.google.com/uc?export=view&id=1Sa1CXwrXKUj4In5JiUI8BHKhflvt7Bvv)
+![Add Comment Activity](https://drive.google.com/uc?export=view&id=1ZOL_8n3Hz5j7FRm7568TDa5S61jKt_jX)  ![Home add comment](https://drive.google.com/uc?export=view&id=1Sa1CXwrXKUj4In5JiUI8BHKhflvt7Bvv)
 
